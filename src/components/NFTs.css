@@ -1,0 +1,286 @@
+.nfts-section {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(0, 212, 255, 0.03) 50%, var(--bg-dark) 100%);
+}
+
+.nfts-subtitle {
+  text-align: center;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: -40px auto 60px;
+}
+
+.collections-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.collection-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--secondary);
+  box-shadow: 0 20px 40px rgba(0, 212, 255, 0.15);
+}
+
+.collection-image {
+  height: 180px;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.collection-emoji {
+  font-size: 5rem;
+}
+
+.rarity-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.rarity-badge.legendary {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.5);
+}
+
+.rarity-badge.epic {
+  background: rgba(138, 43, 226, 0.2);
+  color: #a855f7;
+  border: 1px solid rgba(138, 43, 226, 0.5);
+}
+
+.rarity-badge.rare {
+  background: rgba(0, 212, 255, 0.2);
+  color: var(--secondary);
+  border: 1px solid rgba(0, 212, 255, 0.5);
+}
+
+.rarity-badge.mythic {
+  background: rgba(255, 107, 53, 0.2);
+  color: var(--accent);
+  border: 1px solid rgba(255, 107, 53, 0.5);
+}
+
+.collection-info {
+  padding: 24px;
+}
+
+.collection-name {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.collection-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.collection-stats {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.collection-stats .stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.collection-stats .stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.collection-stats .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.collection-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.collection-link:hover {
+  background: var(--secondary);
+  color: var(--bg-dark);
+}
+
+.featured-section {
+  margin-bottom: 80px;
+}
+
+.featured-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.featured-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.featured-header h3 svg {
+  color: var(--warning);
+}
+
+.featured-header a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.featured-header a:hover {
+  color: var(--primary);
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+.featured-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.featured-card:hover {
+  border-color: var(--primary);
+}
+
+.featured-image {
+  height: 120px;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 212, 255, 0.1) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.featured-info {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.featured-name {
+  font-size: 0.85rem;
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.featured-price {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.nft-cta {
+  background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.nft-cta-content h3 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.nft-cta-content p {
+  color: var(--text-dim);
+}
+
+.nft-cta .btn-primary {
+  white-space: nowrap;
+}
+
+@media (max-width: 1200px) {
+  .collections-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nft-cta {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-grid {
+    grid-template-columns: 1fr;
+  }
+}

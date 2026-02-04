@@ -1,0 +1,325 @@
+.partners-section {
+  background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(255, 107, 53, 0.03) 50%, var(--bg-dark) 100%);
+}
+
+.partners-subtitle {
+  text-align: center;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  margin: -40px auto 60px;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+}
+
+.partner-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.partner-logo {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.partner-info {
+  margin-bottom: 16px;
+}
+
+.partner-name {
+  font-size: 1.3rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+
+.partner-type {
+  font-size: 0.85rem;
+  color: var(--secondary);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.partner-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.partner-status {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.partner-status.active {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--primary);
+}
+
+.partner-status.integrated {
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--secondary);
+}
+
+.partner-status.listed {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--warning);
+}
+
+.exchanges-section {
+  margin-bottom: 80px;
+}
+
+.exchanges-title {
+  text-align: center;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exchanges-title span:first-child {
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.exchanges-subtitle {
+  font-size: 1rem;
+  color: var(--text-dim);
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+}
+
+.exchanges-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+.exchange-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.exchange-card:hover {
+  transform: translateY(-5px);
+}
+
+.exchange-card.listed:hover {
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(0, 255, 136, 0.15);
+}
+
+.exchange-card.pending:hover {
+  border-color: var(--warning);
+}
+
+.exchange-card.target:hover {
+  border-color: var(--secondary);
+}
+
+.exchange-logo {
+  font-size: 2rem;
+}
+
+.exchange-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.exchange-status {
+  font-size: 0.7rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.exchange-status.listed {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--primary);
+}
+
+.exchange-status.pending {
+  background: rgba(255, 215, 0, 0.15);
+  color: var(--warning);
+}
+
+.exchange-status.target {
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--secondary);
+}
+
+.roadmap-section {
+  margin-bottom: 80px;
+}
+
+.roadmap-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  color: var(--text);
+}
+
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.roadmap-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.roadmap-card.completed {
+  border-color: var(--primary);
+}
+
+.roadmap-card:hover {
+  transform: translateY(-5px);
+}
+
+.roadmap-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.roadmap-phase {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.roadmap-phase-title {
+  font-size: 1.2rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.completed-icon {
+  color: var(--primary);
+  margin-left: auto;
+}
+
+.roadmap-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.roadmap-items li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.roadmap-items li svg {
+  color: var(--primary);
+  flex-shrink: 0;
+}
+
+.roadmap-card.completed .roadmap-items li svg {
+  color: var(--primary);
+}
+
+.roadmap-card:not(.completed) .roadmap-items li svg {
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.partner-cta {
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 60px;
+  text-align: center;
+}
+
+.partner-cta .cta-icon {
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.partner-cta h3 {
+  font-size: 2rem;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+
+.partner-cta p {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  margin-bottom: 32px;
+}
+
+@media (max-width: 1200px) {
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .exchanges-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .roadmap-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .partners-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exchanges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .roadmap-grid {
+    grid-template-columns: 1fr;
+  }
+}
