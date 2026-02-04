@@ -24,7 +24,6 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Stats', href: '#stats' },
     { name: 'Token', href: '#token' },
-    { name: 'NFTs', href: '#nfts' },
     { name: 'Community', href: '#community' },
     { name: 'Partners', href: '#partners' },
   ];
