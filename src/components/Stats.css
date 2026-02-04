@@ -15,6 +15,12 @@
   margin-bottom: 40px;
 }
 
+.live-indicator-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .stats-header .live-indicator {
   background: rgba(0, 255, 136, 0.1);
   padding: 8px 20px;
@@ -22,6 +28,42 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
   font-family: 'Orbitron', sans-serif;
   font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-btn {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--secondary);
+  transition: all 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: rgba(0, 212, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.refresh-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.refresh-btn .spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Animated Number Styles - Clean and Sharp */

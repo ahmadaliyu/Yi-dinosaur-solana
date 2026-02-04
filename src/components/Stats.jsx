@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   TrendingUp, 
@@ -8,8 +8,10 @@ import {
   Activity,
   BarChart3,
   Zap,
-  MessageCircle
+  MessageCircle,
+  RefreshCw
 } from 'lucide-react';
+import { useTokenData } from '../hooks/useTokenData';
 import './Stats.css';
 
 // Individual digit component that slides when it changes
@@ -53,6 +55,10 @@ const SlidingNumber = ({ value }) => {
 };
 
 const Stats = () => {
+  // Fetch real data from APIs (with 30s refresh)
+  const { coinGecko, dexScreener, solana, isLoading, lastUpdated, refetch } = useTokenData(30000);
+
+  // Default/fallback stats (used when API data not available)
   const [stats, setStats] = useState({
     mindshare: 847562000,
     views: 2456789000,
@@ -63,6 +69,28 @@ const Stats = () => {
     dailyTransactions: 8547,
     socialScore: 89.3
   });
+
+  // Update stats when real data arrives
+  useEffect(() => {
+    if (coinGecko || dexScreener || solana) {
+      setStats(prev => ({
+        ...prev,
+        // From CoinGecko
+        followers: coinGecko?.twitterFollowers || prev.followers,
+        trendingScore: coinGecko?.priceChange24h ? Math.min(99.9, Math.abs(coinGecko.priceChange24h) + 80) : prev.trendingScore,
+        
+        // From DexScreener
+        dailyTransactions: dexScreener?.txns24h || prev.dailyTransactions,
+        activeHolders: solana?.holderCount ? solana.holderCount * 1000 : prev.activeHolders,
+        
+        // Market data
+        marketCap: coinGecko?.marketCap || dexScreener?.fdv || 0,
+        price: dexScreener?.price || coinGecko?.price || 0,
+        volume24h: dexScreener?.volume24h || coinGecko?.volume24h || 0,
+        liquidity: dexScreener?.liquidity || 0,
+      }));
+    }
+  }, [coinGecko, dexScreener, solana]);
 
   const [displayStats, setDisplayStats] = useState({
     mindshare: 0,
@@ -204,9 +232,19 @@ const Stats = () => {
         >
           <div className="stats-header">
             <h2 className="section-title">Real-Time $Yi Mindshare Tracker</h2>
-            <div className="live-indicator">
-              <span className="live-dot"></span>
-              LIVE DATA
+            <div className="live-indicator-group">
+              <div className="live-indicator">
+                <span className="live-dot"></span>
+                LIVE DATA
+              </div>
+              <button 
+                className="refresh-btn" 
+                onClick={refetch}
+                disabled={isLoading}
+                title={lastUpdated ? `Last updated: ${lastUpdated.toLocaleTimeString()}` : 'Refresh data'}
+              >
+                <RefreshCw size={16} className={isLoading ? 'spinning' : ''} />
+              </button>
             </div>
           </div>
 

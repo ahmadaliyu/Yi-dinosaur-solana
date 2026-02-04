@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Flame, 
@@ -10,36 +11,60 @@ import {
   Sparkles,
   ExternalLink
 } from 'lucide-react';
+import { useTokenData } from '../hooks/useTokenData';
 import './Token.css';
 
 const Token = () => {
+  // Fetch real data
+  const { coinGecko, dexScreener, solana, isLoading } = useTokenData(60000);
+  
+  // Dynamic token stats based on real data
+  const [dynamicStats, setDynamicStats] = useState({
+    holders: '15,234',
+    burned: '2.5M',
+    integrations: '12'
+  });
+
+  useEffect(() => {
+    if (solana?.holderCount) {
+      setDynamicStats(prev => ({
+        ...prev,
+        holders: solana.holderCount.toLocaleString()
+      }));
+    }
+  }, [solana]);
+
   const tokenStats = [
     {
       icon: <Users size={32} />,
-      value: '15,234',
+      value: dynamicStats.holders,
       label: '$Yi Holders',
       description: 'Unique wallet addresses holding $Yi',
       color: 'primary'
     },
     {
       icon: <Flame size={32} />,
-      value: '2.5M',
+      value: dynamicStats.burned,
       label: '$Yi Burned',
       description: 'Tokens permanently removed from circulation',
       color: 'accent'
     },
     {
       icon: <Puzzle size={32} />,
-      value: '12',
+      value: dynamicStats.integrations,
       label: 'Integrations',
       description: 'DeFi protocols & platforms supporting $Yi',
       color: 'secondary'
     }
   ];
 
+  // Dynamic tokenomics based on real data
+  const totalSupply = coinGecko?.totalSupply || 1000000000;
+  const circulatingSupply = coinGecko?.circulatingSupply || 847500000;
+  
   const tokenomics = [
-    { label: 'Total Supply', value: '1,000,000,000', icon: <Coins size={20} /> },
-    { label: 'Circulating', value: '847,500,000', icon: <TrendingUp size={20} /> },
+    { label: 'Total Supply', value: totalSupply.toLocaleString(), icon: <Coins size={20} /> },
+    { label: 'Circulating', value: circulatingSupply.toLocaleString(), icon: <TrendingUp size={20} /> },
     { label: 'Burned', value: '2,500,000', icon: <Flame size={20} /> },
     { label: 'Locked', value: '150,000,000', icon: <Lock size={20} /> }
   ];
