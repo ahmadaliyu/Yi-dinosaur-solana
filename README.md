@@ -1,16 +1,44 @@
-# React + Vite
+# Yi Dinosaur 🦖
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A Solana-based platform for the **$Yi Token** (Yi Dinosaur) — featuring real-time mindshare tracking, NFT collectibles, and community engagement.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Real-Time Stats Dashboard** — Live tracking of $Yi mindshare, collective views (with digit-by-digit sliding animation), global followers, and social mentions
+- **Multi-Wallet Support** — Connect with Phantom, Solflare, Ledger, Torus, and Coinbase wallets
+- **NFT Gallery** — Showcase of Yi Dinosaur collectibles
+- **Token Information** — $Yi token details, holders, burned tokens, and blockchain integrations
+- **Community Hub** — Social links and community stats
+- **Partnerships** — Exchange and partner integrations
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** with Vite
+- **Framer Motion** — Smooth animations
+- **Solana Web3.js** — Blockchain integration
+- **Solana Wallet Adapter** — Multi-wallet connectivity
+- **Lucide React** — Icon library
 
-## Expanding the ESLint configuration
+## 📦 Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Clone the repository
+git clone https://github.com/ahmadaliyu/Yi-dinosaur.git
+
+# Navigate to project directory
+cd yi-dinosaur
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+## 🌐 Live Demo
+
+Visit the live site at your deployed URL.
+
+## 📄 License
+
+MIT License
