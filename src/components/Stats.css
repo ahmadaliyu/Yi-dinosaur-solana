@@ -2,12 +2,17 @@
   background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(0, 255, 136, 0.02) 50%, var(--bg-dark) 100%);
 }
 
+.stats-hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
 .stats-header {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 
 .stats-header .live-indicator {
@@ -17,6 +22,201 @@
   border: 1px solid rgba(0, 255, 136, 0.3);
   font-family: 'Orbitron', sans-serif;
   font-size: 0.8rem;
+}
+
+/* Animated Number Styles - Clean and Sharp */
+.animated-number {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+
+.animated-number .number-text {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Sliding Number for Collective Views - Digit by Digit Animation */
+.sliding-number-container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+}
+
+.digit-wrapper {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  height: 1.2em;
+  min-width: 0.65em;
+}
+
+.sliding-digit {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  will-change: transform, opacity;
+}
+
+.digit-comma {
+  display: inline-block;
+  min-width: 0.3em;
+}
+
+/* Prominent Collective Views Display */
+.collective-views-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.collective-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.collective-label svg {
+  color: var(--primary);
+}
+
+.collective-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 6.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  min-height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.collective-number .sliding-digit,
+.collective-number .digit-comma {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes numberGlow {
+  0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.3)); }
+  50% { filter: drop-shadow(0 0 40px rgba(0, 255, 136, 0.6)); }
+}
+
+.collective-subtitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.collective-change {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--primary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.realtime-counter-section {
+  margin-bottom: 60px;
+}
+
+.counter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.counter-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.counter-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.counter-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 16px;
+  background: rgba(0, 255, 136, 0.15);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+.counter-icon.mindshare { color: var(--primary); background: rgba(0, 255, 136, 0.15); }
+.counter-icon.followers { color: var(--secondary); background: rgba(0, 212, 255, 0.15); }
+.counter-icon.mentions { color: var(--warning); background: rgba(255, 215, 0, 0.15); }
+
+.counter-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.counter-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter-value .number-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.counter-change {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.counter-change.positive {
+  background: rgba(0, 255, 136, 0.15);
+  color: var(--primary);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  animation: pulse 1s infinite;
 }
 
 .stats-grid {
@@ -332,6 +532,14 @@
 }
 
 @media (max-width: 1024px) {
+  .collective-number {
+    font-size: 5rem;
+  }
+
+  .counter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -345,7 +553,30 @@
   }
 }
 
+@media (max-width: 768px) {
+  .counter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
+  .collective-number {
+    font-size: 3.2rem;
+  }
+
+  .collective-label {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+  }
+
+  .counter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .counter-value {
+    font-size: 1.6rem;
+  }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }

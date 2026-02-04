@@ -45,8 +45,10 @@ const Footer = () => {
         >
           <div className="footer-brand">
             <a href="#" className="footer-logo">
-              <div className="logo-icon">翼</div>
-              <span className="logo-text">$Yi</span>
+              <div className="logo-icon">
+                <span className="logo-yi">Yi</span>
+              </div>
+              <span className="logo-text">Dinosaur</span>
             </a>
             <p className="footer-tagline">
               The Strange Wing of Crypto. A 159 million year old dinosaur meets 

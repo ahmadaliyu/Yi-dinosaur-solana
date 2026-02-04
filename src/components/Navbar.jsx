@@ -57,8 +57,10 @@ const Navbar = () => {
     >
       <div className="navbar-container">
         <a href="#" className="logo">
-          <div className="logo-icon">翼</div>
-          <span className="logo-text">$Yi</span>
+          <div className="logo-icon">
+            <span className="logo-yi">Yi</span>
+          </div>
+          <span className="logo-text">Dinosaur</span>
         </a>
 
         <div className={`nav-links ${isMobileOpen ? 'open' : ''}`}>

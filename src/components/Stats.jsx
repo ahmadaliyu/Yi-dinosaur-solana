@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   TrendingUp, 
   Eye, 
@@ -12,114 +12,151 @@ import {
 } from 'lucide-react';
 import './Stats.css';
 
+// Individual digit component that slides when it changes
+const SlidingDigit = ({ digit, index }) => {
+  return (
+    <span className="digit-wrapper">
+      <AnimatePresence mode="popLayout">
+        <motion.span
+          key={`${index}-${digit}`}
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -30, opacity: 0 }}
+          transition={{ 
+            duration: 0.4,
+            ease: [0.4, 0, 0.2, 1]
+          }}
+          className="sliding-digit"
+        >
+          {digit}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+};
+
+// Sliding number that animates individual digits - ONLY for Collective Views
+const SlidingNumber = ({ value }) => {
+  const formattedValue = value.toLocaleString();
+  
+  return (
+    <div className="sliding-number-container">
+      {formattedValue.split('').map((char, index) => {
+        // Commas don't animate, just render them
+        if (char === ',') {
+          return <span key={`comma-${index}`} className="digit-comma">,</span>;
+        }
+        return <SlidingDigit key={index} digit={char} index={index} />;
+      })}
+    </div>
+  );
+};
+
 const Stats = () => {
   const [stats, setStats] = useState({
+    mindshare: 847562000,
+    views: 2456789000,
+    followers: 125678000,
+    mentions: 45892000,
+    trendingScore: 94.7,
+    activeHolders: 15234,
+    dailyTransactions: 8547,
+    socialScore: 89.3
+  });
+
+  const [displayStats, setDisplayStats] = useState({
     mindshare: 0,
     views: 0,
     followers: 0,
-    mentions: 0,
-    trendingScore: 0,
-    activeHolders: 0,
-    dailyTransactions: 0,
-    socialScore: 0
+    mentions: 0
   });
 
-  // Simulated real-time data updates
-  useEffect(() => {
-    const targetStats = {
-      mindshare: 847562,
-      views: 2456789,
-      followers: 125678,
-      mentions: 45892,
-      trendingScore: 94.7,
-      activeHolders: 15234,
-      dailyTransactions: 8547,
-      socialScore: 89.3
-    };
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
 
-    // Animate numbers on load
-    const duration = 2000;
-    const steps = 60;
+  // Intersection observer to trigger animation when visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isVisible) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [isVisible]);
+
+  // Animate numbers when section becomes visible
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const duration = 2500;
+    const steps = 100;
     const interval = duration / steps;
 
     let currentStep = 0;
     const timer = setInterval(() => {
       currentStep++;
-      const progress = currentStep / steps;
+      const progress = easeOutExpo(currentStep / steps);
       
-      setStats({
-        mindshare: Math.floor(targetStats.mindshare * progress),
-        views: Math.floor(targetStats.views * progress),
-        followers: Math.floor(targetStats.followers * progress),
-        mentions: Math.floor(targetStats.mentions * progress),
-        trendingScore: Math.floor(targetStats.trendingScore * progress * 10) / 10,
-        activeHolders: Math.floor(targetStats.activeHolders * progress),
-        dailyTransactions: Math.floor(targetStats.dailyTransactions * progress),
-        socialScore: Math.floor(targetStats.socialScore * progress * 10) / 10
+      setDisplayStats({
+        mindshare: Math.floor(stats.mindshare * progress),
+        views: Math.floor(stats.views * progress),
+        followers: Math.floor(stats.followers * progress),
+        mentions: Math.floor(stats.mentions * progress)
       });
 
       if (currentStep >= steps) {
         clearInterval(timer);
-        // Continue with small random updates
-        startLiveUpdates(targetStats);
+        startLiveUpdates();
       }
     }, interval);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isVisible]);
 
-  const startLiveUpdates = (baseStats) => {
-    setInterval(() => {
-      setStats(prev => ({
-        ...prev,
-        mindshare: prev.mindshare + Math.floor(Math.random() * 10),
-        views: prev.views + Math.floor(Math.random() * 50),
-        mentions: prev.mentions + Math.floor(Math.random() * 3),
-        dailyTransactions: prev.dailyTransactions + Math.floor(Math.random() * 5)
-      }));
-    }, 3000);
+  // Easing function for smooth animation
+  const easeOutExpo = (x) => {
+    return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
   };
 
-  const formatNumber = (num) => {
-    if (num >= 1000000) return (num / 1000000).toFixed(2) + 'M';
-    if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+  // Real-time updates that continue forever
+  const startLiveUpdates = () => {
+    // Slower updates for views (every 800ms) - only Collective Views has sliding animation
+    setInterval(() => {
+      setDisplayStats(prev => ({
+        ...prev,
+        views: prev.views + Math.floor(Math.random() * 50000) + 10000
+      }));
+    }, 800);
+
+    // Medium updates for mindshare (every 2s)
+    setInterval(() => {
+      setDisplayStats(prev => ({
+        ...prev,
+        mindshare: prev.mindshare + Math.floor(Math.random() * 30000) + 5000
+      }));
+    }, 2000);
+
+    // Slower updates for followers and mentions
+    setInterval(() => {
+      setDisplayStats(prev => ({
+        ...prev,
+        followers: prev.followers + Math.floor(Math.random() * 2),
+        mentions: prev.mentions + Math.floor(Math.random() * 3)
+      }));
+    }, 2000);
+  };
+
+  const formatNumberWithCommas = (num) => {
     return num.toLocaleString();
   };
-
-  const mainStats = [
-    {
-      icon: <Activity size={28} />,
-      value: formatNumber(stats.mindshare),
-      label: '$Yi Mindshare',
-      change: '+12.5%',
-      positive: true,
-      description: 'Total social engagement score'
-    },
-    {
-      icon: <Eye size={28} />,
-      value: formatNumber(stats.views),
-      label: 'Collective Views',
-      change: '+28.3%',
-      positive: true,
-      description: 'Across all platforms'
-    },
-    {
-      icon: <Users size={28} />,
-      value: formatNumber(stats.followers),
-      label: 'Global Followers',
-      change: '+8.7%',
-      positive: true,
-      description: 'Combined community size'
-    },
-    {
-      icon: <MessageCircle size={28} />,
-      value: formatNumber(stats.mentions),
-      label: 'Social Mentions',
-      change: '+45.2%',
-      positive: true,
-      description: '24h mention count'
-    }
-  ];
 
   const secondaryStats = [
     {
@@ -130,13 +167,13 @@ const Stats = () => {
     },
     {
       icon: <BarChart3 size={24} />,
-      value: formatNumber(stats.activeHolders),
+      value: formatNumberWithCommas(stats.activeHolders),
       label: 'Active Holders',
       color: 'secondary'
     },
     {
       icon: <Zap size={24} />,
-      value: formatNumber(stats.dailyTransactions),
+      value: formatNumberWithCommas(stats.dailyTransactions),
       label: 'Daily TXs',
       color: 'accent'
     },
@@ -156,13 +193,14 @@ const Stats = () => {
   ];
 
   return (
-    <section id="stats" className="stats-section section">
+    <section id="stats" className="stats-section section" ref={sectionRef}>
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
+          className="stats-hero"
         >
           <div className="stats-header">
             <h2 className="section-title">Real-Time $Yi Mindshare Tracker</h2>
@@ -171,30 +209,61 @@ const Stats = () => {
               LIVE DATA
             </div>
           </div>
+
+          {/* Prominent Collective Views Counter */}
+          <div className="collective-views-display">
+            <div className="collective-label">
+              <Eye size={28} />
+              <span>Collective Views</span>
+            </div>
+            <div className="collective-number">
+              <SlidingNumber value={displayStats.views} />
+            </div>
+            <div className="collective-subtitle">
+              <span className="pulse-dot"></span>
+              Updating in real-time
+              <span className="collective-change">+28.3% today</span>
+            </div>
+          </div>
         </motion.div>
 
-        <div className="stats-grid">
-          {mainStats.map((stat, index) => (
-            <motion.div
-              key={stat.label}
-              className="stat-card main-stat"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <div className="stat-icon">{stat.icon}</div>
-              <div className="stat-content">
-                <div className="stat-value">{stat.value}</div>
-                <div className="stat-label">{stat.label}</div>
-                <div className="stat-description">{stat.description}</div>
+        {/* Main Real-Time Counter Display */}
+        <motion.div 
+          className="realtime-counter-section"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="counter-grid">
+            <div className="counter-card">
+              <div className="counter-icon mindshare">
+                <Activity size={36} />
               </div>
-              <div className={`stat-change ${stat.positive ? 'positive' : 'negative'}`}>
-                {stat.change}
+              <div className="counter-label">$Yi Mindshare</div>
+              <div className="counter-value">{displayStats.mindshare.toLocaleString()}</div>
+              <div className="counter-change positive">+12.5%</div>
+            </div>
+
+            <div className="counter-card">
+              <div className="counter-icon followers">
+                <Users size={36} />
               </div>
-            </motion.div>
-          ))}
-        </div>
+              <div className="counter-label">Global Followers</div>
+              <div className="counter-value">{displayStats.followers.toLocaleString()}</div>
+              <div className="counter-change positive">+8.7%</div>
+            </div>
+
+            <div className="counter-card">
+              <div className="counter-icon mentions">
+                <MessageCircle size={36} />
+              </div>
+              <div className="counter-label">Social Mentions</div>
+              <div className="counter-value">{displayStats.mentions.toLocaleString()}</div>
+              <div className="counter-change positive">+45.2%</div>
+            </div>
+          </div>
+        </motion.div>
 
         <div className="secondary-stats">
           {secondaryStats.map((stat, index) => (
