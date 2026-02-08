@@ -30,7 +30,9 @@ import {
   Zap
 } from 'lucide-react';
 import {
-  getChainInfo,
+  getWalletInfo,
+  getWalletTransactions,
+  calculatePerformanceMetrics,
   formatTimeAgo,
   formatNumber,
 } from '../services/solscanApi';
@@ -142,7 +144,7 @@ const WalletTracker = () => {
 
     // Basic Solana address validation (base58, 32-44 chars)
     if (searchAddress.length < 32 || searchAddress.length > 44) {
-      showErrorToast('Invalid Solana wallet address');
+      showErrorToast('Invalid Solana wallet address (32-44 characters)');
       return;
     }
 
@@ -150,78 +152,67 @@ const WalletTracker = () => {
     setError(null);
 
     try {
-      console.log('Fetching wallet data for:', searchAddress);
-      const data = await getChainInfo();
-      console.log('Wallet Response:', data);
+      console.log('🔍 Fetching wallet data from Solscan for:', searchAddress);
       
-      if (data && data.success) {
-        // Mock wallet data for now
-        const mockWalletData = {
+      // Fetch wallet info and transactions from Solscan API
+      const [walletInfo, transactions] = await Promise.all([
+        getWalletInfo(searchAddress),
+        getWalletTransactions(searchAddress, 100)
+      ]);
+      
+      if (walletInfo && transactions) {
+        console.log('✅ Wallet Info:', walletInfo);
+        console.log('✅ Transactions:', transactions);
+        
+        // Calculate performance metrics from transactions
+        const pnlStats = calculatePerformanceMetrics(transactions);
+        
+        // Calculate performance by timeframe
+        const now = Date.now();
+        const performanceByTimeframe = {
+          '1d': calculatePerformanceMetrics(
+            transactions.filter(t => (now - t.timestamp) <= 86400000)
+          ),
+          '7d': calculatePerformanceMetrics(
+            transactions.filter(t => (now - t.timestamp) <= 604800000)
+          ),
+          '30d': calculatePerformanceMetrics(
+            transactions.filter(t => (now - t.timestamp) <= 2592000000)
+          ),
+        };
+
+        const realWalletData = {
           address: searchAddress,
-          balance: 15.5,
-          trades: generateMockTrades(),
+          balance: walletInfo.balance || 0,
+          trades: transactions,
           pnlStats: {
-            realized: 2850.75,
-            unrealized: 1230.50,
-            roi: 145.6,
-            winRate: 62.3,
-            totalTrades: 127,
-            winningTrades: 79,
-            losingTrades: 48,
+            realized: pnlStats.realized,
+            unrealized: pnlStats.unrealized,
+            roi: pnlStats.roi,
+            winRate: pnlStats.winRate,
+            totalTrades: pnlStats.totalTrades,
+            winningTrades: pnlStats.winningTrades,
+            losingTrades: pnlStats.losingTrades,
           },
           performanceByTimeframe: {
-            '1d': { pnl: 250.50, roi: 12.3 },
-            '7d': { pnl: 1200.75, roi: 58.5 },
-            '30d': { pnl: 2850.75, roi: 145.6 },
+            '1d': { pnl: performanceByTimeframe['1d'].realized, roi: performanceByTimeframe['1d'].roi },
+            '7d': { pnl: performanceByTimeframe['7d'].realized, roi: performanceByTimeframe['7d'].roi },
+            '30d': { pnl: performanceByTimeframe['30d'].realized, roi: performanceByTimeframe['30d'].roi },
           }
         };
-        setWalletData(mockWalletData);
+        
+        setWalletData(realWalletData);
         setSelectedWallet(searchAddress);
         setShowMore(false);
       } else {
         showErrorToast('Failed to fetch wallet data. Please check the address.');
       }
     } catch (err) {
-      showErrorToast('Error fetching wallet information');
-      console.error(err);
+      console.error('❌ Error fetching wallet information:', err);
+      showErrorToast('Error fetching wallet information. Please try again.');
     } finally {
       setLoading(false);
     }
-  };
-
-  // Generate mock trades
-  const generateMockTrades = () => {
-    const trades = [];
-    const tokens = [
-      { symbol: 'COPE', name: 'Cope', price: 0.025 },
-      { symbol: 'DUST', name: 'Dust', price: 0.0001 },
-      { symbol: 'RAY', name: 'Raydium', price: 8.5 },
-      { symbol: 'ORCA', name: 'Orca', price: 2.3 },
-      { symbol: 'STEP', name: 'Step', price: 0.15 },
-    ];
-
-    for (let i = 0; i < 100; i++) {
-      const token = tokens[Math.floor(Math.random() * tokens.length)];
-      const type = Math.random() > 0.45 ? 'buy' : 'sell';
-      const amount = Math.floor(Math.random() * 10000) + 1000;
-      const solAmount = (Math.random() * 50 + 1).toFixed(2);
-      
-      trades.push({
-        id: i,
-        type,
-        token: token.symbol,
-        tokenName: token.name,
-        amount,
-        solAmount: parseFloat(solAmount),
-        price: token.price,
-        pnl: type === 'buy' ? -(solAmount * 0.8) : solAmount * 0.9,
-        timestamp: Date.now() - Math.random() * 2592000000, // Random time in last 30 days
-        txHash: `${Math.random().toString(36).substr(2, 44)}`,
-        platform: Math.random() > 0.5 ? 'Raydium' : 'Orca'
-      });
-    }
-
-    return trades.sort((a, b) => b.timestamp - a.timestamp);
   };
 
   // Show error toast
