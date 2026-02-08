@@ -26,6 +26,7 @@ const Navbar = () => {
     { name: 'Stats', to: '/stats' },
     { name: 'Token', to: '/token' },
     { name: 'Tracker', to: '/tracker' },
+    { name: 'Scanner', to: '/scanner' },
     { name: 'Community', to: '/community' },
     { name: 'Partners', to: '/partners' },
   ];

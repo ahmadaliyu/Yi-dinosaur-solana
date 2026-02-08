@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Stats from './components/Stats'
 import Token from './components/Token'
 import WalletTracker from './components/WalletTracker'
+import RugScanner from './components/RugScanner'
 import Community from './components/Community'
 import Partners from './components/Partners'
 import Footer from './components/Footer'
@@ -45,6 +46,14 @@ const TrackerPage = () => (
   </main>
 )
 
+const ScannerPage = () => (
+  <main>
+    <div style={{ paddingTop: '100px' }}>
+      <RugScanner />
+    </div>
+  </main>
+)
+
 const CommunityPage = () => (
   <main>
     <div style={{ paddingTop: '100px' }}>
@@ -72,6 +81,7 @@ function App() {
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/token" element={<TokenPage />} />
           <Route path="/tracker" element={<TrackerPage />} />
+          <Route path="/scanner" element={<ScannerPage />} />
           <Route path="/community" element={<CommunityPage />} />
           <Route path="/partners" element={<PartnersPage />} />
         </Routes>
